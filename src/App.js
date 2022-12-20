@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import Axios from 'axios'
 import './App.css';
-import Header from './components/Header';
-import MovieScreen from './components/MovieScreen';
+import Header from './components/Header/Header';
+import MovieScreen from './components/MovieScreen/MovieScreen';
+import Watchlist from './components/Watchlist/Watchlist';
 
 function App() {
 
@@ -24,12 +25,35 @@ useEffect(() => {
 }, [page])
 
 
+const addMovie = (movie) => {
+  setWatchList([...watchList, movie])
+}
+
+
+const removeMovie = (movie) => {
+  let newState = watchList.filter((mov) => mov !== movie)
+  setWatchList(newState)
+}
+
 
   return (
     <div className="App">
       <Header />
       <main>
-        <MovieScreen list={watchList} page={page} setPage={setpage} movieList={movieList} />
+        <MovieScreen 
+        addMovie={addMovie} 
+        list={watchList} 
+        page={page} 
+        setPage={setpage} 
+        movieList={movieList} 
+        removeMovie={removeMovie}
+        />
+
+        <Watchlist 
+        list={watchList} 
+        removeMovie={removeMovie}
+        />
+        
       </main>
     </div>
   );
